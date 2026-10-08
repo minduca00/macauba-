@@ -32,10 +32,8 @@
       <nav aria-label="Principal">
         <button class="burger" aria-label="Abrir menu" aria-expanded="false">☰</button>
         <ul id="menu">
-          <li><a href="#inicio">Início</a></li>
-          <li><a href="#estudio">O Estúdio</a></li>
+          <li><a href="#estudio">Estúdio</a></li>
           <li><a href="#servicos">Experiências</a></li>
-          <li><a href="#estrutura">A Luz</a></li>
           <li><a href="#portfolio">Portfólio</a></li>
           <li><a href="#contato">Contato</a></li>
         </ul>
@@ -48,19 +46,24 @@
       <div class="hero-photo" role="img" aria-label="Fotografia editorial do estúdio"></div>
       <div class="wrap hero-inner">
         <p class="label">Fotografia e vídeo / Boa Viagem, Recife</p>
-        <h1>Seu projeto.<br>Ganha vida aqui.</h1>
-        <p>Um espaço para fotografia, vídeo e criação de conteúdo em Boa Viagem, Recife.</p>
-        <a class="btn" href="#estudio">Conheça o Macaúba</a>
+        <h1>Ideias ganham forma.<br>A luz faz o resto.</h1>
+        <p>Estúdio de fotografia, vídeo e criação de conteúdo em Boa Viagem, Recife.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#portfolio">Ver portfólio</a>
+          <a class="btn btn-outline" href="#estudio">Conhecer o estúdio</a>
+        </div>
       </div>
     </section>
 
     <section id="manifesto">
       <div class="wrap">
         <p class="label red">A luz é o nosso material.</p>
-        <h2>Não é só sobre apertar o botão.</h2>
+        <h2>Antes da câmera, existe uma ideia.<br>Antes da imagem, existe a luz.</h2>
+        <p class="manifesto-copy">No Macaúba, cada produção nasce da combinação entre direção, enquadramento, cenário e iluminação.</p>
         <div class="linhas" aria-label="Manifesto do estúdio">
-          <p>É sobre a luz.</p>
-          <p>O enquadramento.</p>
+          <p>Luz.</p>
+          <p>Enquadramento.</p>
+          <p>Direção.</p>
           <p>A ideia.</p>
         </div>
       </div>
@@ -70,8 +73,8 @@
       <div class="wrap studio-shell">
         <div class="studio-copy">
           <p class="label red">O estúdio</p>
-          <h2>Um estúdio. Inúmeras possibilidades.</h2>
-          <p>O Estúdio Macaúba é um espaço profissional dedicado à fotografia, vídeo e produção de conteúdo. Localizado em Boa Viagem, Recife, o estúdio oferece estrutura e versatilidade para diferentes tipos de projetos.</p>
+          <h2>Um estúdio.<br>Inúmeras possibilidades.</h2>
+          <p>Um espaço pensado para transformar diferentes ideias em imagens.</p>
           <ul class="studio-meta" aria-label="Informações do estúdio">
             <li>50 M²</li>
             <li>Boa Viagem — Recife</li>
@@ -87,8 +90,8 @@
     <section id="estrutura">
       <div class="wrap">
         <p class="label red">A luz</p>
-        <h2>A luz faz parte da história.</h2>
-        <p class="sub">Uma estrutura versátil para transformar ideias em imagens.</p>
+        <h2>Cenários para cada ideia.</h2>
+        <p class="sub">Recursos e cenários para diferentes produções.</p>
         <div class="luz">
           <div class="ph light-1" role="img" aria-label="Iluminação profissional e softboxes"></div>
           <div class="ph light-2" role="img" aria-label="Detalhe do estúdio"></div>
@@ -102,22 +105,28 @@
         <p class="label red">Experiências</p>
         <div class="service-grid" aria-label="Serviços e experiências do estúdio">
           <a class="service-card service-1" href="#contato">
-            <span>Fotografia</span>
+            <span class="service-title">Fotografia</span>
+            <span class="service-description">Ensaios, retratos, moda e projetos autorais.</span>
           </a>
           <a class="service-card service-2" href="#contato">
-            <span>Vídeo</span>
+            <span class="service-title">Vídeo</span>
+            <span class="service-description">Produções audiovisuais, clipes e conteúdo.</span>
           </a>
           <a class="service-card service-3" href="#contato">
-            <span>Beauty</span>
+            <span class="service-title">Beauty</span>
+            <span class="service-description">Beleza, maquiagem e produções editoriais.</span>
           </a>
           <a class="service-card service-4" href="#contato">
-            <span>Artistas</span>
+            <span class="service-title">Artistas</span>
+            <span class="service-description">Um espaço para criar, produzir e apresentar sua identidade.</span>
           </a>
           <a class="service-card service-5" href="#contato">
-            <span>Conteúdo</span>
+            <span class="service-title">Conteúdo</span>
+            <span class="service-description">Fotos e vídeos para marcas, criadores e redes sociais.</span>
           </a>
           <a class="service-card service-6" href="#contato">
-            <span>Campanhas</span>
+            <span class="service-title">Campanhas</span>
+            <span class="service-description">Produções para comunicar uma marca através da imagem.</span>
           </a>
         </div>
       </div>
@@ -128,18 +137,35 @@
         <div class="portfolio-head">
           <p class="label red">Portfólio</p>
           <h2>Feito no Macaúba.</h2>
+          <p class="portfolio-intro">Uma seleção de imagens, histórias e projetos produzidos no estúdio.</p>
+        </div>
+
+        <div class="portfolio-filters" role="group" aria-label="Filtrar portfólio">
+          <button class="portfolio-filter is-active" type="button" data-category="Todos" aria-pressed="true">Todos</button>
+          <button class="portfolio-filter" type="button" data-category="Ensaios" aria-pressed="false">Ensaios</button>
+          <button class="portfolio-filter" type="button" data-category="Artistas" aria-pressed="false">Artistas</button>
+          <button class="portfolio-filter" type="button" data-category="Beauty" aria-pressed="false">Beauty</button>
+          <button class="portfolio-filter" type="button" data-category="Vídeo" aria-pressed="false">Vídeo</button>
+          <button class="portfolio-filter" type="button" data-category="Conteúdo" aria-pressed="false">Conteúdo</button>
+          <button class="portfolio-filter" type="button" data-category="Campanhas" aria-pressed="false">Campanhas</button>
         </div>
 
         <div class="portfolio-carousel">
           <div class="carousel-wrapper">
             <button class="carousel-btn carousel-prev" type="button" aria-label="Imagem anterior">&#10094;</button>
-            <div class="carousel-track" id="carouselTrack" tabindex="0" aria-label="Carrossel de imagens do portfólio" aria-live="polite"></div>
+            <div class="carousel-track" id="carouselTrack" tabindex="0" aria-label="Carrossel de imagens do portfólio"></div>
             <button class="carousel-btn carousel-next" type="button" aria-label="Próxima imagem">&#10095;</button>
           </div>
-          <div class="carousel-counter" aria-label="Posição no portfólio" aria-live="polite" aria-atomic="true">
-            <span id="carouselCurrent">01</span>
-            <span>/</span>
-            <span id="carouselTotal">06</span>
+          <div class="portfolio-caption" aria-live="polite" aria-atomic="true">
+            <div class="carousel-counter" aria-label="Posição no portfólio">
+              <span id="carouselCurrent">01</span>
+              <span>/</span>
+              <span id="carouselTotal">06</span>
+            </div>
+            <div class="portfolio-project">
+              <p class="portfolio-project-category" id="carouselCategory">Ensaios</p>
+              <h3 class="portfolio-project-title" id="carouselTitle">Ensaios</h3>
+            </div>
           </div>
         </div>
       </div>
@@ -155,37 +181,53 @@
 
     <section id="instagram">
       <div class="wrap">
-        <h2>O trabalho continua fora daqui.</h2>
-        <p class="sub">Acompanhe nossos trabalhos, bastidores e novas produções.</p>
+        <h2>O trabalho continua<br>fora daqui.</h2>
+        <p class="sub">Veja os bastidores, produções recentes e tudo o que está acontecendo no Macaúba.</p>
         <p class="label">@estudio.macauba</p>
-        <div class="insta">
-          <div class="ph insta-1" role="img" aria-label="Bastidores 1"></div>
-          <div class="ph insta-2" role="img" aria-label="Bastidores 2"></div>
-          <div class="ph insta-3" role="img" aria-label="Bastidores 3"></div>
-          <div class="ph insta-4" role="img" aria-label="Bastidores 4"></div>
-          <div class="ph insta-5" role="img" aria-label="Bastidores 5"></div>
-          <div class="ph insta-6" role="img" aria-label="Bastidores 6"></div>
+        <div class="insta" aria-label="Publicações do Estúdio Macaúba no Instagram">
+          <a class="ph insta-1" href="https://www.instagram.com/p/Dbwda7JmVuN/" target="_blank" rel="noopener noreferrer" aria-label="Ver publicação do Estúdio Macaúba no Instagram">
+            <span>Ver publicação <span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="ph insta-2" href="https://www.instagram.com/p/DYxtCZQFjOb/" target="_blank" rel="noopener noreferrer" aria-label="Ver publicação do Estúdio Macaúba no Instagram">
+            <span>Ver publicação <span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="ph insta-3" href="https://www.instagram.com/p/DTiesrgkXet/" target="_blank" rel="noopener noreferrer" aria-label="Ver publicação do Estúdio Macaúba no Instagram">
+            <span>Ver publicação <span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="ph insta-4" href="https://www.instagram.com/p/DcB5N56FCVH/" target="_blank" rel="noopener noreferrer" aria-label="Ver publicação do Estúdio Macaúba no Instagram">
+            <span>Ver publicação <span aria-hidden="true">↗</span></span>
+          </a>
         </div>
-        <a class="btn" href="https://www.instagram.com/estudio.macauba/" target="_blank" rel="noopener">Ver Instagram</a>
+        <a class="btn" href="https://www.instagram.com/estudio.macauba/" target="_blank" rel="noopener">Ver no Instagram →</a>
       </div>
     </section>
 
     <section id="local">
       <div class="wrap">
-        <h2>Encontre o Macaúba</h2>
+        <h2>Encontre o Macaúba.</h2>
         <p>Estúdio Macaúba — Empresarial Guararapes, Sala 404. Boa Viagem, Recife — PE.</p>
-        <div class="mapa" role="img" aria-label="Mapa do estúdio"></div>
-        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Empresarial+Guararapes+Boa+Viagem+Recife" target="_blank" rel="noopener">Como chegar</a>
+        <div class="mapa">
+          <iframe
+            src="https://www.google.com/maps?q=Est%C3%BAdio+Maca%C3%BAba%2C+Boa+Viagem%2C+Recife+-+PE&output=embed"
+            title="Mapa do Estúdio Macaúba em Boa Viagem, Recife"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <a class="btn" href="https://share.google/cIBIx670t9bZhs96E" target="_blank" rel="noopener">Como chegar →</a>
       </div>
     </section>
 
     <section id="contato">
       <div class="wrap">
         <svg viewBox="0 0 100 80" style="color:var(--creme);--logo-furo:#d40000" aria-hidden="true"><use href="#logo"/></svg>
-        <h2>Qual é a sua próxima ideia?</h2>
+        <h2>Qual é a sua<br>próxima ideia?</h2>
         <p>Vamos transformar sua ideia em imagem.</p>
-        <span class="label">WhatsApp (contato a configurar)</span>
-        <a class="btn creme" id="zap" href="#contato">Vamos criar</a>
+        <div class="contact-actions">
+          <a class="btn creme" id="zap" href="#contato" hidden>Falar pelo WhatsApp →</a>
+          <a class="contact-instagram" href="https://www.instagram.com/estudio.macauba/" target="_blank" rel="noopener">@estudio.macauba</a>
+        </div>
       </div>
     </section>
   </main>
@@ -198,7 +240,7 @@
       <div class="end">
         <a href="https://www.instagram.com/estudio.macauba/" target="_blank" rel="noopener">@estudio.macauba</a>
         <span>Empresarial Guararapes — Sala 404 / Boa Viagem, Recife — PE</span>
-        <a href="#contato" id="zap2" style="font-size:.8rem;font-weight:700">Fale conosco — WhatsApp a configurar</a>
+        <a href="#contato" id="zap2" hidden style="font-size:.8rem;font-weight:700">Fale pelo WhatsApp →</a>
       </div>
       <nav aria-label="Rodapé">
         <a href="#inicio">Início</a>

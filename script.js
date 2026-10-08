@@ -1,7 +1,7 @@
-const WHATSAPP = "";
+const WHATSAPP = ""; // Configure com DDI e DDD, somente números.
 const MENSAGEM = "Olá! Vi o site do Estúdio Macaúba e quero saber mais sobre o estúdio.";
 
-if (WHATSAPP) {
+if (WHATSAPP.trim()) {
   const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(MENSAGEM)}`;
   ['zap', 'zap2'].forEach(id => {
     const link = document.getElementById(id);
@@ -9,12 +9,8 @@ if (WHATSAPP) {
     link.href = url;
     link.target = '_blank';
     link.rel = 'noopener';
+    link.hidden = false;
   });
-
-  const label = document.querySelector('#contato .label');
-  const footerLink = document.getElementById('zap2');
-  if (label) label.textContent = 'WhatsApp';
-  if (footerLink) footerLink.textContent = 'Fale conosco — WhatsApp';
 }
 
 const burger = document.querySelector('.burger');
@@ -63,12 +59,12 @@ if (lines.length) {
 }
 
 const portfolioItems = [
-  { title: 'Ensaios', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80' },
-  { title: 'Artistas', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80' },
-  { title: 'Beauty', image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=80' },
-  { title: 'Vídeo', image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80' },
-  { title: 'Conteúdo', image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80' },
-  { title: 'Campanhas', image: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80' }
+  { title: 'Ensaios', category: 'Ensaios', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80' },
+  { title: 'Artistas', category: 'Artistas', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80' },
+  { title: 'Beauty', category: 'Beauty', image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=80' },
+  { title: 'Vídeo', category: 'Vídeo', image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80' },
+  { title: 'Conteúdo', category: 'Conteúdo', image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80' },
+  { title: 'Campanhas', category: 'Campanhas', image: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80' }
 ];
 
 const carouselTrack = document.getElementById('carouselTrack');
@@ -76,26 +72,18 @@ const previousButton = document.querySelector('.carousel-prev');
 const nextButton = document.querySelector('.carousel-next');
 const currentCounter = document.getElementById('carouselCurrent');
 const totalCounter = document.getElementById('carouselTotal');
+const currentCategory = document.getElementById('carouselCategory');
+const currentTitle = document.getElementById('carouselTitle');
+const filterButtons = document.querySelectorAll('.portfolio-filter');
 
-if (carouselTrack && previousButton && nextButton && currentCounter && totalCounter) {
+if (carouselTrack && previousButton && nextButton && currentCounter && totalCounter && currentCategory && currentTitle) {
   let currentIndex = 0;
   let isAnimating = false;
   let pointerStartX = null;
   let suppressCardClick = false;
+  let visibleItems = portfolioItems;
+  let cards = [];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const cards = portfolioItems.map(item => {
-    const card = document.createElement('button');
-    const image = document.createElement('img');
-    card.type = 'button';
-    card.className = 'carousel-card';
-    image.src = item.image;
-    image.alt = item.title;
-    card.append(image);
-    carouselTrack.append(card);
-    return card;
-  });
-
-  totalCounter.textContent = String(cards.length).padStart(2, '0');
 
   function updateCarousel() {
     cards.forEach((card, index) => {
@@ -129,6 +117,10 @@ if (carouselTrack && previousButton && nextButton && currentCounter && totalCoun
     });
 
     currentCounter.textContent = String(currentIndex + 1).padStart(2, '0');
+    totalCounter.textContent = String(visibleItems.length).padStart(2, '0');
+    currentCategory.textContent = visibleItems[currentIndex].category;
+    currentTitle.textContent = visibleItems[currentIndex].title;
+    carouselTrack.setAttribute('aria-label', `Carrossel de portfólio: ${visibleItems[currentIndex].title}`);
   }
 
   function moveCarousel(direction) {
@@ -145,19 +137,61 @@ if (carouselTrack && previousButton && nextButton && currentCounter && totalCoun
     }, 700);
   }
 
-  cards.forEach((card, index) => {
-    card.addEventListener('click', () => {
-      if (suppressCardClick || isAnimating) return;
-      let difference = index - currentIndex;
-      if (difference > cards.length / 2) difference -= cards.length;
-      if (difference < -cards.length / 2) difference += cards.length;
-      if (difference === -1) moveCarousel(-1);
-      if (difference === 1) moveCarousel(1);
+  function renderCards() {
+    cards = visibleItems.map((item, index) => {
+      const card = document.createElement('button');
+      const image = document.createElement('img');
+      card.type = 'button';
+      card.className = 'carousel-card';
+      card.dataset.index = String(index);
+      card.setAttribute('aria-label', `${item.title} — ${item.category}`);
+      image.src = item.image;
+      image.alt = item.title;
+      image.loading = 'lazy';
+      card.append(image);
+      return card;
     });
+    carouselTrack.replaceChildren(...cards);
+    updateCarousel();
+  }
+
+  function selectCategory(category) {
+    visibleItems = category === 'Todos'
+      ? portfolioItems
+      : portfolioItems.filter(item => item.category === category);
+    currentIndex = 0;
+    isAnimating = false;
+    carouselTrack.style.transition = 'none';
+    carouselTrack.style.transform = '';
+    renderCards();
+    carouselTrack.offsetWidth;
+    carouselTrack.style.transition = '';
+  }
+
+  carouselTrack.addEventListener('click', event => {
+    const card = event.target.closest('.carousel-card');
+    if (!card || suppressCardClick || isAnimating) return;
+    const index = Number(card.dataset.index);
+    let difference = index - currentIndex;
+    if (difference > cards.length / 2) difference -= cards.length;
+    if (difference < -cards.length / 2) difference += cards.length;
+    if (difference === -1) moveCarousel(-1);
+    if (difference === 1) moveCarousel(1);
   });
 
   previousButton.addEventListener('click', () => moveCarousel(-1));
   nextButton.addEventListener('click', () => moveCarousel(1));
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      filterButtons.forEach(filter => {
+        const isActive = filter === button;
+        filter.classList.toggle('is-active', isActive);
+        filter.setAttribute('aria-pressed', String(isActive));
+      });
+      selectCategory(button.dataset.category);
+    });
+  });
 
   carouselTrack.addEventListener('keydown', event => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
@@ -166,14 +200,24 @@ if (carouselTrack && previousButton && nextButton && currentCounter && totalCoun
   });
 
   carouselTrack.addEventListener('pointerdown', event => {
+    if (event.button !== 0) return;
     pointerStartX = event.clientX;
+    carouselTrack.style.transition = 'none';
     carouselTrack.setPointerCapture(event.pointerId);
+  });
+
+  carouselTrack.addEventListener('pointermove', event => {
+    if (pointerStartX === null) return;
+    const distance = event.clientX - pointerStartX;
+    carouselTrack.style.transform = `translate3d(${distance * 0.18}px,0,0)`;
   });
 
   carouselTrack.addEventListener('pointerup', event => {
     if (pointerStartX === null) return;
     const distance = event.clientX - pointerStartX;
     pointerStartX = null;
+    carouselTrack.style.transform = '';
+    carouselTrack.style.transition = '';
     if (Math.abs(distance) > 50) {
       suppressCardClick = true;
       window.setTimeout(() => {
@@ -186,7 +230,26 @@ if (carouselTrack && previousButton && nextButton && currentCounter && totalCoun
 
   carouselTrack.addEventListener('pointercancel', () => {
     pointerStartX = null;
+    carouselTrack.style.transform = '';
+    carouselTrack.style.transition = '';
   });
 
-  updateCarousel();
+  renderCards();
+}
+
+const revealTargets = document.querySelectorAll(
+  '.studio-copy, .studio-visual, #estrutura .wrap > *, .service-card, .portfolio-head, .portfolio-filters, .portfolio-carousel, #instagram .wrap > *, #local .wrap > *'
+);
+if (revealTargets.length && 'IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.12 });
+  revealTargets.forEach(target => {
+    target.classList.add('reveal');
+    revealObserver.observe(target);
+  });
 }
