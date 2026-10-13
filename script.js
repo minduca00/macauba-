@@ -1,17 +1,20 @@
-const WHATSAPP = ""; // Configure com DDI e DDD, somente números.
-const MENSAGEM = "Olá! Vi o site do Estúdio Macaúba e quero saber mais sobre o estúdio.";
+﻿const WHATSAPP = '5581999473117';
+const MENSAGEM = 'Olá! Conheci o site do Estúdio Macaúba e gostaria de consultar a disponibilidade para uma locação ou ensaio fotográfico. Poderiam me passar mais informações?';
 
-if (WHATSAPP.trim()) {
-  const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(MENSAGEM)}`;
+const buildWhatsAppUrl = (message = MENSAGEM) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
+
+const discoverWhatsApp = () => {
   ['zap', 'zap2'].forEach(id => {
     const link = document.getElementById(id);
     if (!link) return;
-    link.href = url;
+    link.href = buildWhatsAppUrl();
     link.target = '_blank';
     link.rel = 'noopener';
     link.hidden = false;
   });
-}
+};
+
+discoverWhatsApp();
 
 const burger = document.querySelector('.burger');
 const menu = document.getElementById('menu');
@@ -21,7 +24,7 @@ if (burger && menu) {
     burger.setAttribute('aria-expanded', String(isOpen));
   });
 
-  menu.addEventListener('click', event => {
+  menu.addEventListener('click', (event) => {
     const link = event.target.closest('a');
     if (!link) return;
     menu.classList.remove('open');
@@ -38,7 +41,7 @@ if (header) {
 
 const hero = document.querySelector('.hero');
 if (hero) {
-  hero.addEventListener('pointermove', event => {
+  hero.addEventListener('pointermove', (event) => {
     const rect = hero.getBoundingClientRect();
     const offsetX = ((event.clientX - rect.left) / rect.width - 0.5) * -18;
     const offsetY = ((event.clientY - rect.top) / rect.height - 0.5) * -18;
@@ -49,13 +52,13 @@ if (hero) {
 
 const lines = document.querySelectorAll('.linhas p');
 if (lines.length) {
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) entry.target.classList.add('on');
     });
   }, { threshold: 0.6 });
 
-  lines.forEach(line => io.observe(line));
+  lines.forEach((line) => io.observe(line));
 }
 
 const portfolioItems = [
@@ -80,7 +83,6 @@ if (carouselTrack && previousButton && nextButton && currentCounter && totalCoun
   let currentIndex = 0;
   let isAnimating = false;
   let pointerStartX = null;
-  let suppressCardClick = false;
   let visibleItems = portfolioItems;
   let cards = [];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -158,7 +160,7 @@ if (carouselTrack && previousButton && nextButton && currentCounter && totalCoun
   function selectCategory(category) {
     visibleItems = category === 'Todos'
       ? portfolioItems
-      : portfolioItems.filter(item => item.category === category);
+      : portfolioItems.filter((item) => item.category === category);
     currentIndex = 0;
     isAnimating = false;
     carouselTrack.style.transition = 'none';
@@ -168,9 +170,9 @@ if (carouselTrack && previousButton && nextButton && currentCounter && totalCoun
     carouselTrack.style.transition = '';
   }
 
-  carouselTrack.addEventListener('click', event => {
+  carouselTrack.addEventListener('click', (event) => {
     const card = event.target.closest('.carousel-card');
-    if (!card || suppressCardClick || isAnimating) return;
+    if (!card || isAnimating) return;
     const index = Number(card.dataset.index);
     let difference = index - currentIndex;
     if (difference > cards.length / 2) difference -= cards.length;
@@ -182,9 +184,9 @@ if (carouselTrack && previousButton && nextButton && currentCounter && totalCoun
   previousButton.addEventListener('click', () => moveCarousel(-1));
   nextButton.addEventListener('click', () => moveCarousel(1));
 
-  filterButtons.forEach(button => {
+  filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
-      filterButtons.forEach(filter => {
+      filterButtons.forEach((filter) => {
         const isActive = filter === button;
         filter.classList.toggle('is-active', isActive);
         filter.setAttribute('aria-pressed', String(isActive));
@@ -193,63 +195,24 @@ if (carouselTrack && previousButton && nextButton && currentCounter && totalCoun
     });
   });
 
-  carouselTrack.addEventListener('keydown', event => {
+  carouselTrack.addEventListener('keydown', (event) => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
     event.preventDefault();
     moveCarousel(event.key === 'ArrowLeft' ? -1 : 1);
   });
 
-  carouselTrack.addEventListener('pointerdown', event => {
+  carouselTrack.addEventListener('pointerdown', (event) => {
     if (event.button !== 0) return;
     pointerStartX = event.clientX;
-    carouselTrack.style.transition = 'none';
-    carouselTrack.setPointerCapture(event.pointerId);
   });
 
-  carouselTrack.addEventListener('pointermove', event => {
+  carouselTrack.addEventListener('pointerup', (event) => {
     if (pointerStartX === null) return;
-    const distance = event.clientX - pointerStartX;
-    carouselTrack.style.transform = `translate3d(${distance * 0.18}px,0,0)`;
-  });
-
-  carouselTrack.addEventListener('pointerup', event => {
-    if (pointerStartX === null) return;
-    const distance = event.clientX - pointerStartX;
+    const delta = event.clientX - pointerStartX;
+    if (delta < -50) moveCarousel(1);
+    if (delta > 50) moveCarousel(-1);
     pointerStartX = null;
-    carouselTrack.style.transform = '';
-    carouselTrack.style.transition = '';
-    if (Math.abs(distance) > 50) {
-      suppressCardClick = true;
-      window.setTimeout(() => {
-        suppressCardClick = false;
-      }, 0);
-    }
-    if (distance < -50) moveCarousel(1);
-    if (distance > 50) moveCarousel(-1);
-  });
-
-  carouselTrack.addEventListener('pointercancel', () => {
-    pointerStartX = null;
-    carouselTrack.style.transform = '';
-    carouselTrack.style.transition = '';
   });
 
   renderCards();
-}
-
-const revealTargets = document.querySelectorAll(
-  '.studio-copy, .studio-visual, #estrutura .wrap > *, .service-card, .portfolio-head, .portfolio-filters, .portfolio-carousel, #instagram .wrap > *, #local .wrap > *'
-);
-if (revealTargets.length && 'IntersectionObserver' in window) {
-  const revealObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
-    });
-  }, { threshold: 0.12 });
-  revealTargets.forEach(target => {
-    target.classList.add('reveal');
-    revealObserver.observe(target);
-  });
 }
